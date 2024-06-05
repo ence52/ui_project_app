@@ -64,10 +64,10 @@ class SearchTab extends StatelessWidget {
                           title: "Plank",
                         ),
                         BestForYouWidget(
-                          level: "Intermediate",
+                          level: "Expert",
                           photo: AssetImage("assets/images/biceps.png"),
                           time: "10",
-                          title: "Build Whider\nBiceps",
+                          title: "Build \nBiceps",
                         )
                       ],
                     ),
@@ -118,8 +118,8 @@ class BestForYouWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 12.h,
-      width: 25.h,
+      height: 25.w,
+      width: 45.w,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.3), // Gölgenin rengi

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,7 +42,7 @@ class _ActivitiesTabState extends State<ActivitiesTab> {
             dataSource: MeetingDataSource(_getDataSource()),
             view: CalendarView.week,
             backgroundColor: themeBackground,
-            firstDayOfWeek: 6,
+            firstDayOfWeek: 3,
             appointmentTextStyle: TextStyle(fontSize: 8.sp),
             headerStyle: CalendarHeaderStyle(
               textAlign: TextAlign.center,
@@ -268,12 +269,13 @@ class AddActivityPage extends StatefulWidget {
 }
 
 class _AddActivityPageState extends State<AddActivityPage> {
-  final DateTime time = DateTime.now().add(const Duration(hours: 3));
-
+  TimeOfDay timeOfDay = TimeOfDay.now();
   String date = DateFormat.yMMMMEEEEd()
       .format(DateTime.now().add(const Duration(hours: 3)));
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now().add(const Duration(hours: 3));
+    String time = DateFormat('h:mm a').format(now);
     return Scaffold(
       appBar: AppBar(
         titleTextStyle: GoogleFonts.lato(
@@ -301,13 +303,37 @@ class _AddActivityPageState extends State<AddActivityPage> {
                   color: tabBarSelected,
                   fontWeight: FontWeight.bold),
             ),
-            Center(
-              child: Text(
-                "${time.hour}:${time.minute}",
-                style: GoogleFonts.lato(color: Colors.white, fontSize: 26.sp),
+            InkWell(
+              onTap: () {
+                showCupertinoModalPopup(
+                    context: context,
+                    builder: (_) => Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: themeBackground,
+                                borderRadius: BorderRadius.circular(25)),
+                            height: 40.w,
+                            width: 70.w,
+                            child: SizedBox(
+                              height: 15.w,
+                              child: Center(
+                                child: CupertinoDatePicker(
+                                    mode: CupertinoDatePickerMode.time,
+                                    initialDateTime: DateTime.now()
+                                        .add(const Duration(hours: 3)),
+                                    onDateTimeChanged: (val) {}),
+                              ),
+                            ),
+                          ),
+                        ));
+              },
+              child: Center(
+                child: Text(
+                  time,
+                  style: GoogleFonts.lato(color: Colors.white, fontSize: 26.sp),
+                ),
               ),
             ),
-            SizedBox(height: 4.h),
             createWorkOutDetailsSection(),
             createSaveButton()
           ],
